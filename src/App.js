@@ -4,23 +4,26 @@ import dates from "./data";
 
 const App = () => {
   const [visible, setVisible] = useState(3);
-  const [showButton, setShowButton] = useState(false);
+  const [showButton, setShowButton] = useState(true);
 
   const showMoreItems = () => {
-    setVisible((prev) => {
-      return prev + 3;
+    setVisible((visible) => {
+      if (visible <= 3) {
+        setShowButton(true);
+      }
+      return visible + 3;
     });
   };
 
   // useEffect ishlatishing garak
 
   const decrement = () => {
-    setVisible((prev) => {
-      if (prev > 5) {
-        setShowButton(true);
-      } else {
-        return prev - 3;
+    setVisible((visible) => {
+      console.log(visible);
+      if (visible <= 3) {
+        setShowButton(false);
       }
+      return visible - 3;
     });
   };
 
@@ -36,7 +39,7 @@ const App = () => {
           );
         })}
         <button onClick={showMoreItems}>Load More</button>
-        {!showButton && <button onClick={decrement}>decrement</button>}
+        {showButton && <button onClick={decrement}>decrement</button>}
       </div>
     </div>
   );
