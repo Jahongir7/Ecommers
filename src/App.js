@@ -1,48 +1,30 @@
-import React, { useState } from "react";
-import "./App.css";
-import dates from "./data";
+import React from 'react';
+import Header from './components/Header'
+import Products from './components/Products'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import {DataProvider} from './components/DataProvider'
+import Details from './components/Details'
+import Cart from './components/Cart'
 
-const App = () => {
-  const [visible, setVisible] = useState(3);
-  const [showButton, setShowButton] = useState(true);
 
-  const showMoreItems = () => {
-    setVisible((visible) => {
-      if (visible <= 3) {
-        setShowButton(true);
-      }
-      return visible + 3;
-    });
-  };
-
-  // useEffect ishlatishing garak
-
-  const decrement = () => {
-    setVisible((visible) => {
-      console.log(visible);
-      if (visible <= 3) {
-        setShowButton(false);
-      }
-      return visible - 3;
-    });
-  };
-
+function App() {
   return (
-    <div className="App">
-      <div className="container">
-        {dates.slice(0, visible).map((question) => {
-          return (
-            <div className="nagap" key={question.id}>
-              <div className="id">{question.id}</div>
-              <div className="q-body">{question.body}</div>
-            </div>
-          );
-        })}
-        <button onClick={showMoreItems}>Load More</button>
-        {showButton && <button onClick={decrement}>decrement</button>}
+    <DataProvider>
+      <div className="App">
+        <Router>
+          <Header />
+
+          <section>
+            <Routes>
+              <Route path="products" element={ <Products /> } />
+              <Route path="products/:id" element={ <Details /> } />
+              <Route path="cart" element={ <Cart /> } />
+            </Routes>
+          </section>
+        </Router>
       </div>
-    </div>
+    </DataProvider>
   );
-};
+}
 
 export default App;
